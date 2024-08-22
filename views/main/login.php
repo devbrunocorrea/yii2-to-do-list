@@ -37,6 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => "<div class=\"custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
             ]) ?>
 
+        <p>For register new user <a href="/main/register">click here</a></p>
+
+
             <div class="form-group">
                 <div>
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
@@ -44,11 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?php ActiveForm::end(); ?>
-
-            <div style="color:#999;">
-                You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-                To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-            </div>
 
         </div>
     </div>

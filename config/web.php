@@ -1,12 +1,16 @@
 <?php
 
+use app\services\TaskService;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
+    'name' => 'To-do List APP',
+    'id' => 'yii2todolist',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'defaultRoute' => 'main/index',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -24,7 +28,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'main/error',
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
@@ -42,16 +46,21 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-            ],
+                'task/<action:(index|update|create|delete)>' => 'task/<action>',
+                'task/<slug>' => 'task/view'
+            ]
         ],
-        */
     ],
     'params' => $params,
+    'container' => [
+        'definitions' => [
+            TaskService::class => TaskService::class, 
+        ],
+    ],
 ];
 
 if (YII_ENV_DEV) {
@@ -60,14 +69,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        // 'allowedIPs' => ['127.0.0.1', '::1', '*'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+            // 'allowedIPs' => ['127.0.0.1', '::1', '*'], // Substitua pelo seu IP
     ];
 }
 

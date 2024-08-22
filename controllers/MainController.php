@@ -8,9 +8,9 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\RegisterForm;
 
-class SiteController extends Controller
+class MainController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -61,6 +61,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect('task/index');
+        }
+
         return $this->render('index');
     }
 
@@ -72,12 +76,12 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect('/task/index');
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/task/index');
         }
 
         $model->password = '';
@@ -99,19 +103,19 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
+     * Displays Register page.
      *
      * @return Response|string
      */
-    public function actionContact()
+    public function actionRegister()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        $model = new RegisterForm();
+        if ($model->load(Yii::$app->request->post()) && $model->register()) {
+            Yii::$app->session->setFlash('RegisterFormSubmitted');
 
-            return $this->refresh();
+            return $this->redirect('login');
         }
-        return $this->render('contact', [
+        return $this->render('register', [
             'model' => $model,
         ]);
     }

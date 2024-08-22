@@ -7,6 +7,13 @@
 make run
 ```
 
+## Run (Alternative):
+```
+docker-compose up -d
+docker-compose exec php composer install -n
+docker-compose exec php php yii migrate --interactive=0
+```
+
 ## Browser:
 http://localhost:8000
 
